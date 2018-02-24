@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Index</title>
+    <link href="https://cdn.bootcss.com/bulma/0.6.2/css/bulma.css" rel="stylesheet">
 </head>
 <body>
-    <?php if (array_key_exists('user_logged_in', $_SESSION)) : ?>
-        <h1>You are logged in as <?= $_SESSION['user_name']; ?></h1>
-    <?php else : ?>
-        <h1>Welcome, Guest.</h1>
-        <p>Login here: <a href="/login">Login</a></p>
-        <p>Register here: <a href="/register">Register</a></p>
-    <?php endif; ?>
-
+    <section class="section">
+        <div class="container">
+            <?php if (array_key_exists('user_logged_in', $_SESSION)) : ?>
+            <h1 class="title">You are logged in as <?= $_SESSION['user_name']; ?></h1>
+            <?php else : ?>
+            <h1 class="title">Welcome, Guest.</h1>
+            <p>Login here: <a href="/login">Login</a></p>
+            <p>Register here: <a href="/register">Register</a></p>
+            <?php endif; ?>
+        </div>
+    </section>        
 </body>
 </html>

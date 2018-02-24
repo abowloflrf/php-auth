@@ -5,12 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+    <link href="https://cdn.bootcss.com/bulma/0.6.2/css/bulma.css" rel="stylesheet">
 </head>
+<style>
+.form-box{
+    margin-right:auto;
+    margin-left:auto;
+    margin-top:40px;
+    padding:40px 20px;
+    max-width:600px;
+}
+</style>
 <body>
-    <form action="/login" method="post">
-    Email:<input type="email" name="email">
-    Password:<input type="password" name="password">
-    <button type="submit">Login</button>
-    </form>
+    <section class="section">
+        <div class="container">
+            <div class="box form-box">
+            <h1 class="title">Login</h1>
+            <hr>
+                <form action="/login" method="post">
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input class="input" type="email" name="email" required autofocus>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-dark" type="submit">Login</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>  
 </body>
 </html>

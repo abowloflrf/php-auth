@@ -61,6 +61,6 @@ class LoginController
     public function logout(Request $request, Response $response, array $args)
     {
         session_destroy();
-        return $response->withRedirect('/login', 301);
+        return $response->withRedirect('/', 301);
     }
 }

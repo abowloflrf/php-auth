@@ -5,14 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Register</title>
+    <link href="https://cdn.bootcss.com/bulma/0.6.2/css/bulma.css" rel="stylesheet">
 </head>
+<style>
+.form-box{
+    margin-right:auto;
+    margin-left:auto;
+    margin-top:40px;
+    padding:40px 20px;
+    max-width:600px;
+}
+</style>
 <body>
-    <form action="/register" method="post">
-    Email:<input type="email" name="email">
-    Name:<input type="text" name="name">
-    Password:<input type="password" name="password">
-    Password Confirm:<input type="password" name="password_confirmation">
-    <button type="submit">Register</button>
-    </form>
+    <section class="section">
+        <div class="container">
+            <div class="box form-box">
+            <h1 class="title">Register</h1>
+            <hr>
+                <form action="/register" method="post">
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input class="input" type="email" name="email" required autofocus>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="name" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Confirm Password</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password_confirmation" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-dark" type="submit">Register</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>  
 </body>
 </html>
