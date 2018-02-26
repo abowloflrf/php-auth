@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers;
+namespace App\Controller;
 
 use Slim\Container;
 use Slim\Http\Request;
@@ -19,10 +19,6 @@ class HomeController
     //显示登录后到home
     public function index(Request $request, Response $response, array $args)
     {
-        if ($_SESSION['user_logged_in']) {
-            return $this->container->renderer->render($response, 'home.phtml', $args);
-        } else {
-            return $response->withRedirect('/login', 301);
-        }
+        return $this->container->renderer->render($response, 'home.phtml', $args);
     }
 }

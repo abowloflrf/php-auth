@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers;
+namespace App\Controller;
 
 use Slim\Container;
 use Slim\Http\Request;
@@ -19,13 +19,9 @@ class RegisterController
     //show register form
     public function showRegisterForm(Request $request, Response $response, array $args)
     {
-        //redirect to home if user has logged in
-        if (!array_key_exists('user_logged_in', $_SESSION) || !$_SESSION['user_logged_in']) {
-            return $this->container->renderer->render($response, 'register.phtml', $args);
-        } else {
-            return $response->withRedirect('/home', 301);
-        }
+        return $this->container->renderer->render($response, 'register.phtml', $args);
     }
+    
     //handle the post data
     public function handleRegister(Request $request, Response $response, array $args)
     {

@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers;
+namespace App\Controller;
 
 use Slim\Container;
 use Slim\Http\Request;
@@ -19,14 +19,7 @@ class LoginController
     //显示登录表单
     public function showLoginForm(Request $request, Response $response, array $args)
     {
-
-        if (!array_key_exists('user_logged_in', $_SESSION) || !$_SESSION['user_logged_in']) {
-            return $this->container->renderer->render($response, 'login.phtml', $args);
-
-        } else {
-            return $response->withRedirect('/home', 301);
-        }
-
+        return $this->container->renderer->render($response, 'login.phtml', $args);
     }
 
     //登录操作

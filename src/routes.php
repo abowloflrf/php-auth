@@ -3,12 +3,21 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+//登陆与未登陆用户均可以访问的首页，根据登陆状态显示内容
 $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->renderer->render($response, 'index.phtml', $args);
 });
-$app->get('/login', '\App\Controllers\LoginController:showLoginForm');
-$app->get('/register','\App\Controllers\RegisterController:showRegisterForm');
-$app->post('/register','\App\Controllers\RegisterController:handleRegister');
-$app->post('/login', '\App\Controllers\LoginController:handleLogin');
-$app->post('/logout', '\App\Controllers\LoginController:logout');
-$app->get('/home', '\App\Controllers\HomeController:index');
+
+//未登录的游客才可访问的路由
+$app->group('', function () {
+    $this->get('/login', '\App\Controller\LoginController:showLoginForm');
+    $this->get('/register', '\App\Controller\RegisterController:showRegisterForm');
+    $this->post('/login', '\App\Controller\LoginController:handleLogin');
+    $this->post('/register', '\App\Controller\RegisterController:handleRegister');
+})->add(new \App\Middleware\GuestMiddleware());
+
+//已经登陆的用户才可以访问的路由
+$app->group('', function () {
+    $this->post('/logout', '\App\Controller\LoginController:logout');
+    $this->get('/home', '\App\Controller\HomeController:index');
+})->add(new \App\Middleware\AuthMiddleware());
