@@ -17,8 +17,13 @@ return [
         ],
 
         'db' => [
-            'driver' => 'sqlite',
-            'database'=> __DIR__ .'/../database/database.sqlite'
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'database' => 'auth',
+            'username' => 'homestead',
+            'password' => 'secret',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
         ]
     ],
 ];

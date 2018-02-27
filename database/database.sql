@@ -1,15 +1,10 @@
--- auto-generated definition
-CREATE TABLE users
-(
-  id         INTEGER NOT NULL
-    PRIMARY KEY
-  AUTOINCREMENT,
-  name       VARCHAR NOT NULL,
-  email      VARCHAR NOT NULL,
-  password   VARCHAR NOT NULL,
-  created_at DATETIME,
-  updated_at DATETIME
+CREATE TABLE `users` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL,
+	`email` VARCHAR(255) NOT NULL,
+	`password` VARCHAR(255) NOT NULL,
+	`created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `users_email_unique` (`email`)
 );
-
-CREATE UNIQUE INDEX users_email_unique
-  ON users (email);
