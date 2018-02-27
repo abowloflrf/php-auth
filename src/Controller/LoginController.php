@@ -4,56 +4,43 @@ namespace App\Controller;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Illuminate\Database\Query\Builder;
+use App\Models\User;
+use App\Auth\Auth;
 
 class LoginController
 {
     protected $container;
-    protected $users;
+
     public function __construct(Container $c)
     {
         $this->container = $c;
-        $this->users = $this->container->get('db')->table('users');
     }
 
-    //显示登录表单
-    public function showLoginForm(Request $request, Response $response, array $args)
+    //show login form
+    public function showLoginForm(Request $request, Response $response)
     {
-        return $this->container->renderer->render($response, 'login.phtml', $args);
+        return $this->container->view->render($response, 'login.twig');
     }
 
-    //登录操作
-    public function handleLogin(Request $request, Response $response, array $args)
+    //handle login request
+    public function handleLogin(Request $request, Response $response)
     {
-        //从Request获取post过来的数据
+        //get post data from request
         $body = $request->getParsedBody();
-        //根据email查询数据库得到相应的User信息
-        $queryUser = $this->users->where('email', $body['email'])->first();
-        //User不存在
-        if (!$queryUser) {
-            echo "User doesn's exsit!";
-            return;
+        //attempt
+        $auth = Auth::attempt($body['email'], $body['password']);
+        if (!$auth) {
+            //invalid credentials, return to login page
+            return $response->withRedirect('/login', 301);
         }
-        //密码错误
-        if (!password_verify($body['password'], $queryUser->password)) {
-            echo "Wrong password!";
-            return;
-        } else {
-            //认证成功，重新生成session_id并写入内容
-            session_regenerate_id(true);
-            $_SESSION = array();
-            $_SESSION['user_id'] = $queryUser->id;
-            $_SESSION['user_name'] = $queryUser->name;
-            $_SESSION['user_email'] = $queryUser->email;
-            $_SESSION['user_logged_in'] = true;
-            return $response->withRedirect('/home', 301);
-        }
+        //login succcessfully, redirect to home page
+        return $response->withRedirect('/home', 301);
     }
 
-    //注销当前帐号操作
-    public function logout(Request $request, Response $response, array $args)
+    //logout
+    public function logout(Request $request, Response $response)
     {
-        session_destroy();
+        Auth::logout();
         return $response->withRedirect('/', 301);
     }
 }

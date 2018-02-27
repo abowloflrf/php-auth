@@ -3,10 +3,23 @@
 
 $container = $app->getContainer();
 
-// view renderer
-$container['renderer'] = function ($c) {
-    $settings = $c->get('settings')['renderer'];
-    return new Slim\Views\PhpRenderer($settings['template_path']);
+// Register Twig View helper
+$container['view'] = function ($c) {
+    $settings = $c->get('settings')['twig'];
+    $view = new \Slim\Views\Twig($settings['template_path'], [
+        'cache' => false
+    ]);
+    
+    // Instantiate and add Slim specific extension
+    $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
+    $view->addExtension(new \Slim\Views\TwigExtension($c['router'], $basePath));
+
+    $view->getEnvironment()->addGlobal('auth', [
+        'check' => \App\Auth\Auth::check(),
+        'user' => \App\Auth\Auth::user()
+    ]);
+
+    return $view;
 };
 
 // monolog
@@ -19,12 +32,10 @@ $container['logger'] = function ($c) {
 };
 
 // Service factory for the ORM
+$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule->addConnection($container['settings']['db']);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
 $container['db'] = function ($container) {
-    $capsule = new \Illuminate\Database\Capsule\Manager;
-    $capsule->addConnection($container['settings']['db']);
-
-    $capsule->setAsGlobal();
-    $capsule->bootEloquent();
-
     return $capsule;
 };

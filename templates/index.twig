@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Index</title>
     <link href="https://cdn.bootcss.com/bulma/0.6.2/css/bulma.css" rel="stylesheet">
 </head>
 <body>
     <section class="section">
         <div class="container">
-                <h1 class="title">Logged in as : <?= $_SESSION['user_name'] ?></h1>
-                <hr>
-                <form action="/logout" method="post">
-                    <button class="button is-dark" type="submit">logout</button>
-                </form>
+            {% if auth.check %}
+            <h1 class="title">You are logged in as {{ auth.user.name }}</h1>
+            {% else %}
+            <h1 class="title">Welcome, Guest.</h1>
+            <p>Login here: <a href="/login">Login</a></p>
+            <p>Register here: <a href="/register">Register</a></p>
+            {% endif %}
         </div>
-    </section>  
+    </section>        
 </body>
 </html>

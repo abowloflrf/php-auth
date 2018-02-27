@@ -1,5 +1,8 @@
 <?php
 namespace App\Middleware;
+
+use App\Auth\Auth;
+
 //GuestMiddleware 只允许为登陆的游客通过，否则跳转到home
 class GuestMiddleware
 {
@@ -14,7 +17,7 @@ class GuestMiddleware
 
     public function __invoke($request, $response, $next)
     {
-        if (array_key_exists('user_logged_in', $_SESSION)) {
+        if (Auth::check()) {
             return $response->withRedirect('/home', 301);
         }
         $response = $next($request, $response);

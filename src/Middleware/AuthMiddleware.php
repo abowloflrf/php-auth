@@ -1,5 +1,7 @@
 <?php
 namespace App\Middleware;
+
+use App\Auth\Auth;
 // AuthMiddle 只允许已经登陆的用户通过，否则跳转到login
 class AuthMiddleware
 {
@@ -14,7 +16,7 @@ class AuthMiddleware
 
     public function __invoke($request, $response, $next)
     {
-        if (!array_key_exists('user_logged_in', $_SESSION) || !$_SESSION['user_logged_in']) {
+        if (Auth::guest()) {
             return $response->withRedirect('/login', 301);
         }
         $response = $next($request, $response);

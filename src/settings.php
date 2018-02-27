@@ -8,6 +8,10 @@ return [
         'renderer' => [
             'template_path' => __DIR__ . '/../templates/',
         ],
+        'twig' => [
+            'template_path' => __DIR__ . '/../templates/',
+            'cache_path'=>__DIR__ . '/../storage/view/'
+        ],
 
         // Monolog settings
         'logger' => [

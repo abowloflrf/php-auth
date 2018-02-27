@@ -4,26 +4,24 @@ namespace App\Controller;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Illuminate\Database\Query\Builder;
+use App\Models\User;
 
 class RegisterController
 {
     protected $container;
-    protected $users;
     public function __construct(Container $c)
     {
         $this->container = $c;
-        $this->users = $this->container->get('db')->table('users');
     }
 
     //show register form
-    public function showRegisterForm(Request $request, Response $response, array $args)
+    public function showRegisterForm(Request $request, Response $response)
     {
-        return $this->container->renderer->render($response, 'register.phtml', $args);
+        return $this->container->view->render($response, 'register.twig');
     }
     
     //handle the post data
-    public function handleRegister(Request $request, Response $response, array $args)
+    public function handleRegister(Request $request, Response $response)
     {
         //parse post data
         $body = $request->getParsedBody();
@@ -41,24 +39,27 @@ class RegisterController
             //password too short
             return $response->withRedirect('/register', 301);
         }
-        if ($this->users->where('email', $body['email'])->first()) {
+        if (User::where('email', $body['email'])->first()) {
             //email exsited
             return $response->withRedirect('/register', 301);
         }
         
         //save user data into database
-        $newUserId = $this->users->insertGetId([
+        $newUser = User::create([
             "email" => $body['email'],
             "name" => $body['name'],
             "password" => password_hash($body['password'], PASSWORD_BCRYPT)
         ]);
+
         //insert successfull, login automatically and redirect to home
         session_regenerate_id(true);
         $_SESSION = array();
-        $_SESSION['user_id'] = $newUserId;
-        $_SESSION['user_name'] = $body['name'];
-        $_SESSION['user_email'] = $body['email'];
+        $_SESSION['user_id'] = $newUser->id;
+        $_SESSION['user_name'] = $newUser->name;
+        $_SESSION['user_email'] = $newUser->email;
         $_SESSION['user_logged_in'] = true;
+
+        //redirect
         return $response->withRedirect('/home', 301);
     }
 
