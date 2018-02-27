@@ -7,15 +7,8 @@ use Slim\Http\Response;
 use App\Models\User;
 use App\Auth\Auth;
 
-class LoginController
+class LoginController extends Controller
 {
-    protected $container;
-
-    public function __construct(Container $c)
-    {
-        $this->container = $c;
-    }
-
     //show login form
     public function showLoginForm(Request $request, Response $response)
     {
@@ -27,10 +20,16 @@ class LoginController
     {
         //get post data from request
         $body = $request->getParsedBody();
-        //attempt
+        //check is user exists
+        if (!User::where('email', $body['email'])->first()) {
+            $_SESSION['errors']['email'] = "User doesn't exist!";
+            return $response->withRedirect('/login', 301);
+        }
+        //check if password is correct
         $auth = Auth::attempt($body['email'], $body['password']);
         if (!$auth) {
-            //invalid credentials, return to login page
+            //wrong password
+            $_SESSION['errors']['password'] = "Wrong password!";
             return $response->withRedirect('/login', 301);
         }
         //login succcessfully, redirect to home page

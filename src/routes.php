@@ -10,14 +10,17 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 
 //未登录的游客才可访问的路由
 $app->group('', function () {
-    $this->get('/login', '\App\Controller\LoginController:showLoginForm');
-    $this->get('/register', '\App\Controller\RegisterController:showRegisterForm');
+    $this->get('/login', '\App\Controller\LoginController:showLoginForm')
+        ->add(new \App\Middleware\ValidationMiddleware($this->getContainer()));
+    $this->get('/register', '\App\Controller\RegisterController:showRegisterForm')
+        ->add(new \App\Middleware\ValidationMiddleware($this->getContainer()));
     $this->post('/login', '\App\Controller\LoginController:handleLogin');
     $this->post('/register', '\App\Controller\RegisterController:handleRegister');
-})->add(new \App\Middleware\GuestMiddleware());
+})->add(new \App\Middleware\GuestMiddleware($app->getContainer()))
+    ->add(new \App\Middleware\OldFormDataMiddleware($app->getContainer()));
 
 //已经登陆的用户才可以访问的路由
 $app->group('', function () {
     $this->post('/logout', '\App\Controller\LoginController:logout');
     $this->get('/home', '\App\Controller\HomeController:index');
-})->add(new \App\Middleware\AuthMiddleware());
+})->add(new \App\Middleware\AuthMiddleware($app->getContainer()));

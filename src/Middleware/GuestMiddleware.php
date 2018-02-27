@@ -4,7 +4,7 @@ namespace App\Middleware;
 use App\Auth\Auth;
 
 //GuestMiddleware 只允许为登陆的游客通过，否则跳转到home
-class GuestMiddleware
+class GuestMiddleware extends Middleware
 {
     /**
      *

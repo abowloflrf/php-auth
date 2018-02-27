@@ -3,7 +3,7 @@ namespace App\Middleware;
 
 use App\Auth\Auth;
 // AuthMiddle 只允许已经登陆的用户通过，否则跳转到login
-class AuthMiddleware
+class AuthMiddleware extends Middleware
 {
     /**
      *
