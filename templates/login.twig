@@ -25,6 +25,9 @@
                 <h1 class="title">Login</h1>
                 <hr>
                 <form action="/login" method="post">
+
+                    <input type="hidden" name="_token" value="{{ token }}">
+
                     <div class="field">
                         <label class="label">Email</label>
                         <div class="control">
@@ -34,6 +37,7 @@
                         <p class="help is-danger">{{ errors.email }}</p>
                         {% endif %}
                     </div>
+
                     <div class="field">
                         <label class="label">Password</label>
                         <div class="control">
@@ -43,6 +47,7 @@
                         <p class="help is-danger">{{ errors.password }}</p>
                         {% endif %}
                     </div>
+                    
                     <div class="field">
                         <div class="control">
                             <button class="button is-dark" type="submit">Login</button>

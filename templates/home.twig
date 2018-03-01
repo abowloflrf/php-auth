@@ -13,6 +13,7 @@
                 <h1 class="title">Logged in as : {{ auth.user.name }}</h1>
                 <hr>
                 <form action="/logout" method="post">
+                    <input type="hidden" name="_token" value="{{ token }}">
                     <button class="button is-dark" type="submit">logout</button>
                 </form>
         </div>

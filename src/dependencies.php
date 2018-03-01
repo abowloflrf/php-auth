@@ -14,6 +14,7 @@ $container['view'] = function ($c) {
     $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new \Slim\Views\TwigExtension($c['router'], $basePath));
 
+    $view->getEnvironment()->addGlobal('token', $_SESSION['_token']);
     $view->getEnvironment()->addGlobal('auth', [
         'check' => \App\Auth\Auth::check(),
         'user' => \App\Auth\Auth::user()

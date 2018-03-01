@@ -26,6 +26,8 @@
                 <hr>
                 <form action="/register" method="post">
 
+                    <input type="hidden" name="_token" value="{{ token }}">
+                    
                     <div class="field">
                         <label class="label">Email</label>
                         <div class="control">

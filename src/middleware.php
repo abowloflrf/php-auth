@@ -1,4 +1,3 @@
 <?php
-// Application middleware
-
-// e.g: $app->add(new \Slim\Csrf\Guard);
+//CSRF Token Middleware
+$app->add(new \App\Middleware\CsrfMiddleware($app->getContainer()));
