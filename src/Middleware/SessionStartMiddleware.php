@@ -44,6 +44,7 @@ class SessionStartMiddleware extends Middleware
     {
         $view = $this->container['view'];
         $view->getEnvironment()->addGlobal('token', $_SESSION['_token']);
+        $view->getEnvironment()->addExtension(new \App\Twig\CsrfTwigExtension);
         $view->getEnvironment()->addGlobal('auth', [
             'check' => \App\Auth\Auth::check(),
             'user' => \App\Auth\Auth::user()

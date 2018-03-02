@@ -26,7 +26,7 @@
                 <hr>
                 <form action="/register" method="post">
 
-                    <input type="hidden" name="_token" value="{{ token }}">
+                    {{ csrf_field() | raw }}
                     
                     <div class="field">
                         <label class="label">Email</label>
