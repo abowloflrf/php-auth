@@ -14,20 +14,16 @@ $container['view'] = function ($c) {
     $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new \Slim\Views\TwigExtension($c['router'], $basePath));
 
-    $view->getEnvironment()->addGlobal('token', $_SESSION['_token']);
-    $view->getEnvironment()->addGlobal('auth', [
-        'check' => \App\Auth\Auth::check(),
-        'user' => \App\Auth\Auth::user()
-    ]);
-
     return $view;
 };
-//custom 404 page
+
+// custom 404 page
 $container['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
         return $c['view']->render($response->withStatus(404), 'error/404.html');
     };
 };
+
 // Service factory for the ORM
 $capsule = new \Illuminate\Database\Capsule\Manager;
 $capsule->addConnection($container['settings']['db']);

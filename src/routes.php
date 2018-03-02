@@ -4,7 +4,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 //登陆与未登陆用户均可以访问的首页，根据登陆状态显示内容
-$app->get('/', function (Request $request, Response $response, array $args) {
+$app->get('/', function (Request $request, Response $response) {
     return $this->view->render($response, 'index.twig');
 });
 
