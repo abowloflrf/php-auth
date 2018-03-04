@@ -4,10 +4,7 @@
 //CSRF Token Middleware
 $app->add(new \App\Middleware\CsrfMiddleware($app->getContainer()));
 
-
-
-
-// The last one is the middleware first excute
+// The last middleware is the first to excute
 
 // Start session
 $app->add(new \App\Middleware\SessionStartMiddleware($app->getContainer()));
